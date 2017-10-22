@@ -127,7 +127,7 @@ RUN curl -s -o /tmp/math.tar.gz https://extdist.wmflabs.org/dist/extensions/Math
 #RUN echo "#Backports" >> /etc/apt/sources.list && echo deb http://ftp.de.debian.org/debian/ jessie-backports main contrib non-free >> /etc/apt/sources.list
 RUN echo deb http://ftp.de.debian.org/debian/ jessie-backports main contrib non-free >> /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get -t jessie-backports install texvc
+RUN apt-get -t jessie-backports install texvc -y
 
 # Set work dir
 WORKDIR /var/www/mediawiki
