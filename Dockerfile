@@ -121,7 +121,7 @@ ARG EXTENSION_MATH_VERSION=REL1_29-05166d9
 RUN curl -s -o /tmp/math.tar.gz https://extdist.wmflabs.org/dist/extensions/Math-$EXTENSION_MATH_VERSION.tar.gz && \
     tar -xzf /tmp/math.tar.gz -C /var/www/mediawiki/extensions && \
     rm /tmp/math.tar.gz
-RUN apt-get install software-properties-common
+RUN apt-get update && apt-get install -y software-properties-common
 RUN add-apt-repository ppa:legoktm/mediawiki-lts && apt-get update && apt-get install texvc
 
 # Set work dir
