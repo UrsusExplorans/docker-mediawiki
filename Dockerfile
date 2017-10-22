@@ -1,5 +1,5 @@
 FROM php:7.0-fpm
-MAINTAINER Kristoph Junge <kristoph.junge@gmail.com>
+#MAINTAINER Kristoph Junge <kristoph.junge@gmail.com>
 
 # Change UID and GID of www-data user to match host privileges
 ARG MEDIAWIKI_USER_UID=999
@@ -16,10 +16,10 @@ RUN apt-get update && \
 RUN docker-php-ext-install mysqli
 
 # Pear mail
-RUN apt-get update && \
-    apt-get install -y php-pear --no-install-recommends && \
-    pear install mail Net_SMTP && \
-    rm -r /var/lib/apt/lists/*
+#RUN apt-get update && \
+#    apt-get install -y php-pear --no-install-recommends && \
+#    pear install mail Net_SMTP && \
+#    rm -r /var/lib/apt/lists/*
 
 # Imagick with PHP extension
 RUN apt-get update && apt-get install -y imagemagick libmagickwand-6.q16-dev --no-install-recommends && \
@@ -63,17 +63,17 @@ COPY config/supervisor/supervisord.conf /etc/supervisor/conf.d/
 COPY config/supervisor/kill_supervisor.py /usr/bin/
 
 # NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_4.x | bash - && \
-    apt-get install -y nodejs --no-install-recommends
+#RUN curl -sL https://deb.nodesource.com/setup_4.x | bash - && \
+#    apt-get install -y nodejs --no-install-recommends
 
 # Parsoid
-RUN useradd parsoid --no-create-home --home-dir /usr/lib/parsoid --shell /usr/sbin/nologin
-RUN apt-key advanced --keyserver pgp.mit.edu --recv-keys 90E9F83F22250DD7 && \
-    echo "deb https://releases.wikimedia.org/debian jessie-mediawiki main" > /etc/apt/sources.list.d/parsoid.list && \
-    apt-get update && \
-    apt-get -y install parsoid --no-install-recommends
-COPY config/parsoid/config.yaml /usr/lib/parsoid/src/config.yaml
-ENV NODE_PATH /usr/lib/parsoid/node_modules:/usr/lib/parsoid/src
+#RUN useradd parsoid --no-create-home --home-dir /usr/lib/parsoid --shell /usr/sbin/nologin
+#RUN apt-key advanced --keyserver pgp.mit.edu --recv-keys 90E9F83F22250DD7 && \
+#    echo "deb https://releases.wikimedia.org/debian jessie-mediawiki main" > /etc/apt/sources.list.d/parsoid.list && \
+#    apt-get update && \
+#    apt-get -y install parsoid --no-install-recommends
+#COPY config/parsoid/config.yaml /usr/lib/parsoid/src/config.yaml
+#ENV NODE_PATH /usr/lib/parsoid/node_modules:/usr/lib/parsoid/src
 
 # Parsoid from git repo. Installs latest version
 #ARG PARSOID_GIT_BRANCH=master
@@ -115,6 +115,13 @@ ARG EXTENSION_USERMERGE_VERSION=REL1_29-de5f67d
 RUN curl -s -o /tmp/extension-usermerge.tar.gz https://extdist.wmflabs.org/dist/extensions/UserMerge-$EXTENSION_USERMERGE_VERSION.tar.gz && \
     tar -xzf /tmp/extension-usermerge.tar.gz -C /var/www/mediawiki/extensions && \
     rm /tmp/extension-usermerge.tar.gz
+
+# Math extension
+ARG EXTENSION_MATH_VERSION=REL1_29-05166d9
+RUN curl -s -o /tmp/math.tar.gz https://extdist.wmflabs.org/dist/extensions/Math-$EXTENSION_MATH_VERSION.tar.gz && \
+    tar -xzf /tmp/math.tar.gz -C /var/www/mediawiki/extensions && \
+    rm /tmp/math.tar.gz
+RUN add-apt-repository ppa:legoktm/mediawiki-lts && apt-get update && apt-get install texvc
 
 # Set work dir
 WORKDIR /var/www/mediawiki
