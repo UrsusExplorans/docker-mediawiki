@@ -50,10 +50,10 @@ RUN apt-get update && \
 COPY config/nginx/* /etc/nginx/
 
 # PHP-FPM
-COPY config/php-fpm/php-fpm.conf /usr/local/etc/
-COPY config/php-fpm/php.ini /usr/local/etc/php/
-RUN mkdir -p /var/run/php7-fpm/ && \
-    chown www-data:www-data /var/run/php7-fpm/
+#COPY config/php-fpm/php-fpm.conf /usr/local/etc/
+#COPY config/php-fpm/php.ini /usr/local/etc/php/
+#RUN mkdir -p /var/run/php7-fpm/ && \
+#    chown www-data:www-data /var/run/php7-fpm/
 
 # Supervisor
 RUN apt-get update && \
