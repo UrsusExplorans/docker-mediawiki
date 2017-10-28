@@ -63,17 +63,17 @@ COPY config/supervisor/supervisord.conf /etc/supervisor/conf.d/
 COPY config/supervisor/kill_supervisor.py /usr/bin/
 
 # NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_4.x | bash - && \
-    apt-get install -y nodejs --no-install-recommends
+#RUN curl -sL https://deb.nodesource.com/setup_4.x | bash - && \
+#    apt-get install -y nodejs --no-install-recommends
 
 # Parsoid
-RUN useradd parsoid --no-create-home --home-dir /usr/lib/parsoid --shell /usr/sbin/nologin
-RUN apt-key advanced --keyserver pgp.mit.edu --recv-keys 90E9F83F22250DD7 && \
-    echo "deb https://releases.wikimedia.org/debian jessie-mediawiki main" > /etc/apt/sources.list.d/parsoid.list && \
-    apt-get update && \
-    apt-get -y install parsoid --no-install-recommends
-COPY config/parsoid/config.yaml /usr/lib/parsoid/src/config.yaml
-ENV NODE_PATH /usr/lib/parsoid/node_modules:/usr/lib/parsoid/src
+#RUN useradd parsoid --no-create-home --home-dir /usr/lib/parsoid --shell /usr/sbin/nologin
+#RUN apt-key advanced --keyserver pgp.mit.edu --recv-keys 90E9F83F22250DD7 && \
+#    echo "deb https://releases.wikimedia.org/debian jessie-mediawiki main" > /etc/apt/sources.list.d/parsoid.list && \
+#    apt-get update && \
+#    apt-get -y install parsoid --no-install-recommends
+#COPY config/parsoid/config.yaml /usr/lib/parsoid/src/config.yaml
+#ENV NODE_PATH /usr/lib/parsoid/node_modules:/usr/lib/parsoid/src
 
 # Parsoid from git repo. Installs latest version
 #ARG PARSOID_GIT_BRANCH=master
@@ -105,10 +105,10 @@ RUN curl -s -o /tmp/keys.txt https://www.mediawiki.org/keys/keys.txt && \
 COPY config/mediawiki/* /var/www/mediawiki/
 
 # VisualEditor extension
-ARG EXTENSION_VISUALEDITOR_VERSION=REL1_29-ef45039
-RUN curl -s -o /tmp/extension-visualeditor.tar.gz https://extdist.wmflabs.org/dist/extensions/VisualEditor-$EXTENSION_VISUALEDITOR_VERSION.tar.gz && \
-    tar -xzf /tmp/extension-visualeditor.tar.gz -C /var/www/mediawiki/extensions && \
-    rm /tmp/extension-visualeditor.tar.gz
+#ARG EXTENSION_VISUALEDITOR_VERSION=REL1_29-ef45039
+#RUN curl -s -o /tmp/extension-visualeditor.tar.gz https://extdist.wmflabs.org/dist/extensions/VisualEditor-$EXTENSION_VISUALEDITOR_VERSION.tar.gz && \
+#    tar -xzf /tmp/extension-visualeditor.tar.gz -C /var/www/mediawiki/extensions && \
+#    rm /tmp/extension-visualeditor.tar.gz
 
 # User merge and delete extension
 ARG EXTENSION_USERMERGE_VERSION=REL1_29-de5f67d
